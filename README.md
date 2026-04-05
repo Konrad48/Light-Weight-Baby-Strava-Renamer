@@ -36,7 +36,15 @@ const CLIENT_ID = 'YOUR_CLIENT_ID';
 const CLIENT_SECRET = 'YOUR_CLIENT_SECRET';
 const INITIAL_REFRESH_TOKEN = 'YOUR_REFRESH_TOKEN';
 ```
-#### c. Save the Script
+#### c. Add activity types for renaming (optional)
+
+For example if you only want to rename your "Heavy Stone Lift, Make Sad Head Voice Quiet" activities, fill it like this:
+
+```javascript
+const ACTIVITY_TYPES_TO_RENAME = ['WeightTraining'];
+```
+
+#### d. Save the Script
 
 ### 3. Set Up the Hourly Trigger
 The script includes a function createHourlyTrigger to set up a trigger for running the renameStravaActivitiesHourly function every hour.
