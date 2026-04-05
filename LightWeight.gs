@@ -5,6 +5,15 @@ const CLIENT_ID = 'YOUR_CLIENT_ID';
 const CLIENT_SECRET = 'YOUR_CLIENT_SECRET';
 const INITIAL_REFRESH_TOKEN = 'YOUR_REFRESH_TOKEN';
 
+/*************************************************
+ * ACTIVITY TYPE FILTER
+ * Leave empty [] to rename ALL activity types.
+ * Fill with Strava activity types to rename only those.
+ * Examples: 'Run', 'Ride', 'Swim', 'Walk', 'Hike',
+ *           'WeightTraining', 'Workout', 'Yoga', etc.
+ *************************************************/
+const ACTIVITY_TYPES_TO_RENAME = []; // e.g. ['WeightTraining']
+
 /**************************************
  * MAIN FUNCTION (Scheduled hourly)
  **************************************/
@@ -148,6 +157,13 @@ function renameUnchangedActivities(activities, accessToken) {
   for (const activity of activities) {
     const activityId = activity.id;
     const currentName = activity.name;
+    const activityType = activity.sport_type || activity.type;
+
+    // Skip if activity type filter is set and this type isn't in the list
+    if (ACTIVITY_TYPES_TO_RENAME.length > 0 && !ACTIVITY_TYPES_TO_RENAME.includes(activityType)) {
+      Logger.log(`Skipping activity ID ${activityId} — type "${activityType}" not in filter`);
+      continue;
+    }
 
     // Skip if we've already renamed this activity
     if (renamedActivityIds.includes(activityId)) {
